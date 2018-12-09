@@ -6,11 +6,11 @@
 </template>
 <script>
 export default {
-  async asyncData({ req }) {
-    const res = await fetch('https://api.github.com/repos/nuxt/nuxt.js')
-    const json = await res.json()
+  async asyncData({ req, app }) {
+    const res = await app.$axios.get('https://api.github.com/repos/nuxt/nuxt.js')
+    // const json = await res.json()
     return {
-      stars: json.stargazers_count,
+      stars: res.data.stargazers_count,
       name: req ? 'server' : 'client'
     }
   },

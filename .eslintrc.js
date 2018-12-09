@@ -1,19 +1,28 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
   env: {
     browser: true,
     node: true
   },
-  extends: 'standard',
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
+  extends: [
+    'plugin:vue/recommended',
+    // 'plugin:prettier/recommended'
+  ],
   // required to lint *.vue files
   plugins: [
-    'html'
+    'vue',
+    // 'prettier'
   ],
   // add your custom rules here
   rules: {
-    'space-before-function-paren': ['error', 'never'],
-    'comma-dangle': ['off'],
-  },
-  globals: {}
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+
+    'vue/max-attributes-per-line': 'off',
+    'vue/html-self-closing': 'off',
+    'vue/attributes-order': 'off',
+  }
 }

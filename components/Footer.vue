@@ -3,37 +3,36 @@
     <div class="huaji"></div>
     <div class="content">
       <div>
-          <div class="block-title">标签</div>
-          <div class="block-content">
-            <div id="tags" style="display: none;">
-              <ul>
-                  <li><a href="/tag/#2323" target="_blank">werter(12)</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="gaoji">
-          <div class="block-title">基友们</div>
-          <div class="block-content">
-            <ul class="clearfix">
-              <li v-for="(item, index) in friends" :key="item.href">
-                <a :href="item.href" class="buling" target="_blank" :title="item.desc">{{ item.name }}</a>
-              </li>
+        <div class="block-title">标签</div>
+        <div class="block-content">
+          <div id="tags" style="display: none;">
+            <ul>
+              <li><a href="/tag/#2323" target="_blank">werter(12)</a></li>
             </ul>
           </div>
         </div>
-        <div class="find-me">
-          <div class="block-title">来抓我呀</div>
-          <div class="block-content">
-            <!-- <a class="github-btn" href="https://github.com/" title="github" target="_blank"><i class="fa fa-github"></i></a>
-            <a class="weibo-btn" href="http://weibo.com/" title="微博" target="_blank"><i class="fa fa-weibo"></i></a>
-            <a class="weixin-btn" href="javascript:;" title="微信"><i class="fa fa-weixin"></i><div class="weixin-qrcode"><img src="/images/weixin_qrcode.jpg"></div></a>
-            <a class="email-btn" href="mailto:" title="邮箱："><i class="fa fa-envelope"></i></a>
-            <a class="rss-btn" href="/feed.xml" title="rss" target="_blank"><i class="fa fa-rss"></i></a> -->
-            <div class="info">
-              <p>© 2017 抽筋的葡萄 · <a href="/about/" target="_blank">关于</a></p>
-              <p>粤ICP备<a href="http://www.miitbeian.gov.cn" target="_blank">17154515</a>号</p>
-            </div>
+      </div>
+      <div class="gaoji">
+        <div class="block-title">基友们</div>
+        <div class="block-content">
+          <ul class="clearfix">
+            <li v-for="item in friends" :key="item.href">
+              <a :href="item.href" :title="item.desc" class="buling" target="_blank">{{ item.name }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="find-me">
+        <div class="block-title">来抓我呀</div>
+        <div class="block-content">
+          <!-- <a class="github-btn" href="https://github.com/" title="github" target="_blank"><i class="fa fa-github"></i></a>
+          <a class="weibo-btn" href="http://weibo.com/" title="微博" target="_blank"><i class="fa fa-weibo"></i></a>
+          <a class="weixin-btn" href="javascript:;" title="微信"><i class="fa fa-weixin"></i><div class="weixin-qrcode"><img src="/images/weixin_qrcode.jpg"></div></a>
+          <a class="email-btn" href="mailto:" title="邮箱："><i class="fa fa-envelope"></i></a>
+          <a class="rss-btn" href="/feed.xml" title="rss" target="_blank"><i class="fa fa-rss"></i></a> -->
+          <div class="info">
+            <p>© 2018 抽筋的葡萄 · <a href="/about/" target="_blank">关于</a></p>
+            <p>粤ICP备<a href="http://www.miitbeian.gov.cn" target="_blank">17154515</a>号</p>
           </div>
         </div>
       </div>
@@ -56,20 +55,40 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-@import '~assets/style/variables/index.less';
+<style lang="scss" scoped>
+@import '~assets/style/variables/index.scss';
 
 footer {
   position: relative;
   margin-top: 30px;
   background-color: #222;
 }
+.huaji {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-image: url('../static/images/huaji.png');
+  background-size: 80px;
+  background-position: left top;
+  background-repeat: no-repeat;
+  // background-color: #eee;
+  transform: translateX(-10%);
+  animation: silde 10s 5s infinite linear;
+  @keyframes silde {
+    0% { transform: translateX(-10%); }
+    33% { transform: translateX(100%); }
+    100% { transform: translateX(100%); }
+  }
+  z-index: 2;
+}
 .content {
   display: flex;
   width: 1000px;
+  height: 300px;
   margin: 0 auto;
   padding: 20px 0;
-  height: 300px;
   @media screen and (max-width: 800px) {
     width: 95%;
   }
@@ -82,12 +101,12 @@ footer {
   color: #fff;
 }
 .block-content {
-  color: @darkGray;
+  color: $darkGray;
   a {
     display: inline-block;
-    color: @darkGray;
+    color: $darkGray;
     &:hover {
-      color: @gray;
+      color: $gray;
     }
   }
 }
@@ -113,26 +132,6 @@ footer {
 //       visibility: hidden;
 //   }
 
-//   @include pc {
-//     .huaji {
-//         position: absolute;
-//         top: -40px;
-//         left: -100px;
-//         height: 40px;
-//         width: 100px;
-//         background-image: url('/assets/images/huaji.png');
-//         background-size: 80%;
-//         background-position: center 3px;
-//         background-repeat: no-repeat;
-//         @include animation(silde 10s infinite linear);
-//         @include keyframes(silde) {
-//             0% { left: -100px; }
-//             33% { left: 100%; }
-//             100% { left: 100%; }
-//         }
-//         z-index: 2;
-//     }
-//   }
 
 //   .content {
 //     position: relative;
