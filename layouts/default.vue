@@ -20,6 +20,11 @@ export default {
       grapeFixed: false,
     }
   },
+  head() {
+    return {
+      title: '抽筋的葡萄',
+    }
+  },
   mounted() {
     window.onscroll = () => {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop

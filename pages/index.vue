@@ -49,11 +49,11 @@ export default {
       pagination,
     }
   },
-  head() {
-    return {
-      title: 'About Page'
-    }
-  },
+  // head() {
+  //   return {
+  //     title: 'About Page'
+  //   }
+  // },
   mounted() {
     var leftHeight = 0,
         rightHeight = 0,

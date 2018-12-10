@@ -63,11 +63,11 @@ export default {
       content,
     }
   },
-  head() {
-    return {
-      title: '666',
-    }
-  },
+  // head() {
+  //   return {
+  //     title: '666',
+  //   }
+  // },
   directives: {
     highlight: {
       inserted: (el) => {
