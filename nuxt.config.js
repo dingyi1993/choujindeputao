@@ -1,7 +1,7 @@
 const pkg = require('./package')
 
 module.exports = {
-  mode: 'spa',
+  // mode: 'spa',
 
   /*
   ** Headers of the page
@@ -44,12 +44,14 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    ['@nuxtjs/axios', { baseURL: '/' }]
+    '@nuxtjs/axios',
   ],
   /*
   ** Axios module configuration
   */
   axios: {
+    port: 3000,
+    browserBaseURL: '/',
     // See https://github.com/nuxt-community/axios-module#options
   },
 
