@@ -49,17 +49,18 @@ export default {
     return params.id === 'magicsearch' ? 'blog' : 'default'
   },
   async asyncData({ req, app, params }) {
-    const res = await app.$axios.get(`/blogs/${params.id}.md`)
+    const result = await app.$axios.$get(`/api/blog/${params.id}`)
+    const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
     // Vue.component('async-example', function (resolve, reject) {
     //   resolve({
     //     template: `<div>${res}</div>`
     //   })
     // })
-    const content = res.data.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
+    const content = mdResult.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
       return `<a href="${$2}" target="_blank">${$1}</a>` // TODO 通用
     })
     return {
-      blog: blogList.find(item => item.id === params.id),
+      blog: result.data,
       content,
     }
   },

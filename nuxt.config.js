@@ -1,5 +1,13 @@
 const pkg = require('./package')
 
+const axiosConfig = {
+  baseURL: 'http://127.0.0.1:7001',
+} // See https://github.com/nuxt-community/axios-module#options
+
+if (process.env.NODE_ENV === 'production') {
+  axiosConfig.browserBaseURL = '/'
+}
+
 module.exports = {
   // mode: 'spa',
 
@@ -29,7 +37,7 @@ module.exports = {
   */
   css: [
     'normalize.css',
-    { src: '~/assets/style/main.scss', lang: 'scss' }
+    { src: '~/assets/style/main.scss', lang: 'scss' },
   ],
 
   /*
@@ -37,6 +45,7 @@ module.exports = {
   */
   plugins: [
     // '~/plugins/vue-markdown'
+    '~/plugins/axios',
   ],
 
   /*
@@ -45,14 +54,14 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
+    '@nuxtjs/style-resources',
   ],
   /*
   ** Axios module configuration
   */
-  axios: {
-    port: 3000,
-    browserBaseURL: '/',
-    // See https://github.com/nuxt-community/axios-module#options
+  axios: axiosConfig,
+  styleResources: {
+    scss: './assets/style/variables/index.scss',
   },
 
   /*
@@ -76,13 +85,13 @@ module.exports = {
     },
     // vendor: ['~/plugins/vue-markdown'],
   },
-  router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'page',
-        path: '/page/:page?',
-        component: 'pages/index.vue'
-      })
-    }
-  }
+  // router: {
+  //   extendRoutes(routes, resolve) {
+  //     routes.push({
+  //       name: 'page',
+  //       path: '/page/:page?',
+  //       component: 'pages/index.vue'
+  //     })
+  //   }
+  // }
 }

@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section class="container" :style="{ visibility: containerShow ? 'visible' : 'hidden' }">
     <div ref="blogList" class="blog-list">
       <div v-for="item in blogList" :key="item.id" :ref="'blog' + item.id">
         <!-- <h1><nuxt-link :to="{ name: 'about' }" class="button">{{ item.title }}</nuxt-link></h1>
@@ -25,12 +25,12 @@
     <div class="pagination">
       <div class="pagination-inner">
         <a v-if="pagination.page === 1" class="prev disabled" href="javascript:;"><i class="fa fa-angle-double-left"></i>上一页</a>
-        <nuxt-link v-else class="prev" :to="{ name: 'page', params: { page: pagination.page - 1 } }"><i class="fa fa-angle-double-left"></i>上一页</nuxt-link>
+        <nuxt-link v-else class="prev" :to="{ name: 'index', query: { page: pagination.page - 1 } }"><i class="fa fa-angle-double-left"></i>上一页</nuxt-link>
 
         <span>{{ pagination.page }}/{{ pagination.totalPage }}</span>
 
         <a v-if="pagination.page === pagination.totalPage" class="next disabled" href="javascript:;">下一页<i class="fa fa-angle-double-right"></i></a>
-        <nuxt-link v-else class="next" :to="{ name: 'page', params: { page: pagination.page + 1 } }">下一页<i class="fa fa-angle-double-right"></i></nuxt-link>
+        <nuxt-link v-else class="next" :to="{ name: 'index', query: { page: pagination.page + 1 } }">下一页<i class="fa fa-angle-double-right"></i></nuxt-link>
       </div>
     </div>
   </section>
@@ -39,14 +39,20 @@
 import SubLine from '~/components/SubLine'
 import blogList from './blogList'
 export default {
+  watchQuery: ['page'],
   components: { SubLine },
-  async asyncData({ req, params }) {
-    const page = params.page ? Number(params.page) : 1
+  async asyncData({ query, app }) {
+    const page = query.page ? Number(query.page) : 1
     const pageSize = 7
-    const pagination = { pageSize, page, totalPage: Math.ceil(blogList.length / pageSize) }
+    const result = await app.$axios.$get('/api/blog', { params: { isPaging: true, page, pageSize } })
     return {
-      blogList: blogList.slice(pageSize * (page - 1), pageSize * page),
-      pagination,
+      containerShow: false,
+      blogList: result.data.list,
+      pagination: {
+        pageSize,
+        page,
+        totalPage: Math.ceil(result.data.count / pageSize)
+      },
     }
   },
   // head() {
@@ -54,44 +60,56 @@ export default {
   //     title: 'About Page'
   //   }
   // },
+  methods: {
+    calBlogCard() {
+      let leftHeight = 0
+      let rightHeight = 0
+      const space = 20
+      const ratio = 0.33
+      this.blogList.forEach(item => {
+        const dom = this.$refs['blog' + item.id][0],
+          selfHeight = dom.offsetHeight;
+        if (
+          (rightHeight < leftHeight && ((leftHeight - rightHeight) >= (selfHeight * ratio))) ||
+          (rightHeight > leftHeight && ((rightHeight - leftHeight) < (selfHeight * ratio)))
+        ) {
+          dom.style.top = rightHeight + 'px'
+          dom.style.right = 0
+          // $this.css({
+          //   top: rightHeight,
+          //   right: 0,
+          // });
+          rightHeight += selfHeight + space;
+        } else {
+          dom.style.top = leftHeight + 'px'
+          dom.style.left = 0
+          // $this.css({
+          //   top: leftHeight,
+          //   left: 0,
+          // });
+          leftHeight += selfHeight + space;
+        }
+      })
+      this.$refs.blogList.style.height = Math.max(leftHeight, rightHeight) + 'px'
+      // $('#main').removeClass('not-ready').addClass('animate');
+      this.containerShow = true
+    },
+  },
   mounted() {
-    var leftHeight = 0,
-        rightHeight = 0,
-        space = 20,
-        ratio = 0.33;
-    this.blogList.forEach(item => {
-      var dom = this.$refs['blog' + item.id][0],
-        selfHeight = dom.offsetHeight;
-      if (
-        (rightHeight < leftHeight && ((leftHeight - rightHeight) >= (selfHeight * ratio))) ||
-        (rightHeight > leftHeight && ((rightHeight - leftHeight) < (selfHeight * ratio)))
-      ) {
-        dom.style.top = rightHeight + 'px'
-        dom.style.right = 0
-        // $this.css({
-        //   top: rightHeight,
-        //   right: 0,
-        // });
-        rightHeight += selfHeight + space;
-      } else {
-        dom.style.top = leftHeight + 'px'
-        dom.style.left = 0
-        // $this.css({
-        //   top: leftHeight,
-        //   left: 0,
-        // });
-        leftHeight += selfHeight + space;
-      }
-    })
-    this.$refs.blogList.style.height = Math.max(leftHeight, rightHeight) + 'px'
-    // $('#main').removeClass('not-ready').addClass('animate');
+    this.calBlogCard()
+  },
+  watch: {
+    'pagination.page'() {
+      document.documentElement.scrollTop = document.body.scrollTop = 200
+      this.$nextTick(() => {
+        this.calBlogCard()
+      })
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~assets/style/variables/index.scss';
-
 .container {
   // position: relative;
   // // height: 100%;

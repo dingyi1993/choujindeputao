@@ -24,5 +24,6 @@ module.exports = {
     'vue/max-attributes-per-line': 'off',
     'vue/html-self-closing': 'off',
     'vue/attributes-order': 'off',
+    'vue/order-in-components': 'off',
   }
 }
