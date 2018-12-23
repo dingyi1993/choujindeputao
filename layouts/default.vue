@@ -1,30 +1,127 @@
 <template>
   <div>
+    <!-- <nav>
+      <ul>
+        <li>首页</li>
+        <li>首页</li>
+        <li>首页</li>
+        <li>首页</li>
+      </ul>
+    </nav> -->
     <header></header>
     <div class="grape" :class="{ fixed: grapeFixed }">
       <nuxt-link title="首页" :to="{ name: 'index' }" class="logo"></nuxt-link>
     </div>
-    <nuxt/>
+    <div class="main-wrapper">
+      <nuxt />
+      <div class="side-card-wrapper">
+        <div class="side-card" :class="{ fixed: grapeFixed }">
+          <transition name="page" mode="out-in">
+            <ul v-if="isBlog">
+              <li
+                v-for="item in [{ key: 'toc', name: '文章目录' }, { key: 'summary', name: '站点概览' }]"
+                :key="item.key"
+                :class="{ active: currentSideCard === item.key }"
+                @click="$store.commit('updateCurrentSideCard', item.key)"
+              >{{ item.name }}</li>
+            </ul>
+            <!-- 下面的 div 是个 hack，为了触发 transition 的 mode="out-in" -->
+            <div v-else></div>
+          </transition>
+          <keep-alive>
+            <transition name="page" mode="out-in">
+              <div v-if="currentSideCard === 'summary' || !isBlog" class="about-site">
+                <div class="header-img"></div>
+                <p>抽筋的葡萄</p>
+                <nav>
+                  <nuxt-link :to="{ name: 'about' }">
+                    <span>23</span>
+                    <span>日志</span>
+                  </nuxt-link>
+                  <nuxt-link :to="{ name: 'about' }">
+                    <span>42</span>
+                    <span>日志</span>
+                  </nuxt-link>
+                  <nuxt-link :to="{ name: 'about' }">
+                    <span>75</span>
+                    <span>日志</span>
+                  </nuxt-link>
+                </nav>
+              </div>
+              <blog-toc v-else class="toc" :list="tocTree"></blog-toc>
+            </transition>
+          </keep-alive>
+        </div>
+      </div>
+    </div>
     <my-footer/>
   </div>
 </template>
 <script>
-import MyFooter from '~/components/Footer.vue'
+import { mapGetters } from 'vuex'
+import MyFooter from '~/components/Footer'
+import BlogToc from '~/components/blog/Toc/index'
 
 export default {
-  components: {
-    MyFooter
-  },
+  components: { MyFooter, BlogToc },
   data() {
     return {
       grapeFixed: false,
     }
+  },
+  computed: {
+    ...mapGetters(['currentSideCard', 'tocArray']),
+    isBlog() {
+      return this.$route.name === 'blog-id'
+    },
+    tocTree() {
+      const newTocArray = []
+      const rootNodeStack = []
+      this.tocArray.forEach(item => {
+        if (item.level === 2) { // 定义根节点
+          const newItem = Object.assign({ isRoot: true }, item)
+          newTocArray.push(newItem)
+          if (rootNodeStack.length) {
+            rootNodeStack.pop()
+          }
+          rootNodeStack.push(newItem)
+        } else {
+          let tmpRootItem = rootNodeStack[rootNodeStack.length - 1]
+          if (item.level === tmpRootItem.level + 1) {
+            if (!tmpRootItem.children) {
+              tmpRootItem.children = []
+            }
+            tmpRootItem.children.push(Object.assign({}, item))
+          } else if (item.level > tmpRootItem.level + 1) {
+            const newItem = Object.assign({}, item)
+            tmpRootItem = tmpRootItem.children[tmpRootItem.children.length - 1]
+            if (!tmpRootItem.children) {
+              tmpRootItem.children = []
+            }
+            tmpRootItem.children.push(newItem)
+            rootNodeStack.push(tmpRootItem)
+          } else {
+            const newItem = Object.assign({}, item)
+            rootNodeStack.pop()
+            rootNodeStack[rootNodeStack.length - 1].children.push(newItem)
+            rootNodeStack.push(newItem)
+          }
+        }
+      })
+      console.log(newTocArray)
+      return newTocArray
+    },
   },
   head() {
     return {
       title: '抽筋的葡萄',
     }
   },
+  // method: {
+  //   handleSideCardClick(sideCard) {
+
+  //   },
+  // },
   mounted() {
     window.onscroll = () => {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
@@ -57,6 +154,31 @@ export default {
 //   box-sizing: border-box;
 //   margin: 0;
 // }
+// nav {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   // height: 38px;
+//   background-color: rgba(40,42,44,.6);
+//   // background-color: rgba(182, 185, 222, 0.6);
+//   z-index: 10;
+//   ul {
+//     margin: 0;
+//     margin-left: 100px;
+//     padding: 0;
+//     list-style: none;
+//     li {
+//       display: inline-block;
+//       width: 120px;
+//       height: 38px;
+//       line-height: 38px;
+//       // float: left;
+//       color: #fff;
+//       font-size: 16px;
+//     }
+//   }
+// }
 
 header {
   height: 650px;
@@ -68,9 +190,84 @@ header {
   }
 }
 
-.container {
-  position: relative;
+.main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   padding-top: 30px;
+  .side-card-wrapper {
+    width: 300px;
+    margin-left: 20px;
+  }
+  .side-card {
+    width: 300px;
+    padding: 20px;
+    box-shadow: 2px 2px 5px #ddd;
+    background-color: #fefefe;
+    border-radius: 4px;
+    &.fixed {
+      position: fixed;
+      top: 30px;
+    }
+    > ul {
+      margin: 0 0 20px 0;
+      padding: 0;
+      text-align: center;
+      li {
+        + li {
+          margin-left: 10px;
+        }
+        display: inline-block;
+        cursor: pointer;
+        border-bottom: 1px solid transparent;
+        font-size: 14px;
+        color: #555;
+        &.active {
+          color: #fc6423;
+          border-bottom-color: #fc6423;
+        }
+        &:hover {
+          color: #fc6423;
+        }
+      }
+    }
+    .about-site {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .header-img {
+        width: 100px;
+        height: 100px;
+        background-color: #ccc;
+      }
+      nav {
+        display: flex;
+        > a {
+          + a {
+            border-left: 1px solid $lightGray;
+          }
+          display: block;
+          width: 60px;
+          span {
+            display: block;
+            text-align: center;
+            &:first-child {
+              font-weight: bold;
+              font-size: 16px;
+              color: $lightBlank;
+            }
+            &:last-child {
+              font-size: 14px;
+              color: $darkGray;
+            }
+          }
+        }
+      }
+    }
+    .toc {
+      align-self: flex-start;
+    }
+  }
 }
 
 .grape {

@@ -1,13 +1,13 @@
 <template>
   <section class="container">
-    <article class="post">
+    <article class="blog">
       <h1>{{ blog.title }}</h1>
 
       <div id="toc"></div>
       <sub-line :datetime="blog.datetime"></sub-line>
 
       <div class="entry">
-        <vue-markdown v-highlight @rendered="handleMdRendered">{{ content }}</vue-markdown>
+        <markdown v-highlight toc @rendered="handleMdRendered" @toc-rendered="handleMdTocRendered">{{ content }}</markdown>
         <!-- <async-example></async-example> -->
       </div>
 
@@ -28,26 +28,24 @@
 </template>
 <script>
 import Vue from 'vue'
-import VueMarkdown from 'vue-markdown'
+// import VueMarkdown from 'vue-markdown'
 
 import hljs from 'highlight.js/lib/highlight'
 import javascript from 'highlight.js/lib/languages/javascript'
 import 'highlight.js/styles/github.css'
 
 import SubLine from '~/components/SubLine'
+import Markdown from '~/components/Markdown'
 
 import blogList from '../blogList'
 
 hljs.registerLanguage('javascript', javascript)
 
 export default {
-  components: {
-    VueMarkdown,
-    SubLine,
-  },
-  layout({ params }) {
-    return params.id === 'magicsearch' ? 'blog' : 'default'
-  },
+  components: { Markdown, SubLine },
+  // layout({ params }) {
+  //   return params.id === 'magicsearch' ? 'blog' : 'default'
+  // },
   async asyncData({ req, app, params }) {
     const result = await app.$axios.$get(`/api/blog/${params.id}`)
     const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
@@ -79,30 +77,37 @@ export default {
       }
     }
   },
-  mounted() {
-  },
   methods: {
     handleMdRendered(outHtml) {
       // console.log(outHtml)
       // Vue.component('async-example', function (resolve, reject) {
-      //   resolve({
-      //     template: `<div>${outHtml}</div>`
+        //   resolve({
+          //     template: `<div>${outHtml}</div>`
       //   })
       // })
     },
+    handleMdTocRendered(tocHtml, tocArray) {
+      this.$store.commit('updateTocArray', tocArray)
+      console.log(tocArray)
+    },
+  },
+  beforeDestroy() {
+    this.$store.commit('updateCurrentSideCard', 'toc')
+    // this.$store.commit('updateTocHtml', '')
   },
 }
 </script>
 <style lang="scss">
 @import '~assets/style/variables/index.scss';
 
-article.post {
+article.blog {
   position: relative;
-  width: 1000px;
-  margin: 0 auto;
+  width: 700px;
+  // margin: 0 auto;
   padding: 20px 30px;
   background-color: #fefefe;
-  border-radius: 5px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px #ddd;
 
   // @include middle-screen1 {
   //     width: $mainMiddleWidth;

@@ -6,6 +6,7 @@ html {
   box-sizing: border-box;
   cursor: url('/images/cursor.ico'),auto;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar-track-piece {
     background: #eee;
@@ -86,6 +87,10 @@ figure {
 }
 pre {
   margin: 0;
+}
+
+em, i {
+  display: block;
 }
 
 button {

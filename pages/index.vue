@@ -1,7 +1,7 @@
 <template>
-  <section class="container" :style="{ visibility: containerShow ? 'visible' : 'hidden' }">
-    <div ref="blogList" class="blog-list">
-      <div v-for="item in blogList" :key="item.id" :ref="'blog' + item.id">
+  <section class="container">
+    <div class="blog-list">
+      <div v-for="item in blogList" :key="item.id">
         <!-- <h1><nuxt-link :to="{ name: 'about' }" class="button">{{ item.title }}</nuxt-link></h1>
         <p>{{ item.excerpt }}</p>
         <div class="read-more">
@@ -16,9 +16,7 @@
           <div class="entry">
             {{ item.excerpt }}
           </div>
-          <div class="read-more">
-            <nuxt-link :to="{ name: 'blog-id', params: { id: item.id } }">READ MORE <i class="fa fa-angle-double-right"></i></nuxt-link>
-          </div>
+          <nuxt-link class="read-more buling" :to="{ name: 'blog-id', params: { id: item.id } }">READ MORE <i class="fa fa-angle-double-right"></i></nuxt-link>
         </div>
       </div>
     </div>
@@ -43,7 +41,7 @@
 </template>
 <script>
 import SubLine from '~/components/SubLine'
-import blogList from './blogList'
+// import blogList from './blogList'
 export default {
   // watchQuery: ['page'],
   components: { SubLine },
@@ -67,42 +65,8 @@ export default {
   //   }
   // },
   methods: {
-    calBlogCard() {
-      let leftHeight = 0
-      let rightHeight = 0
-      const space = 20
-      const ratio = 0.33
-      this.blogList.forEach(item => {
-        const dom = this.$refs['blog' + item.id][0],
-          selfHeight = dom.offsetHeight;
-        if (
-          (rightHeight < leftHeight && ((leftHeight - rightHeight) >= (selfHeight * ratio))) ||
-          (rightHeight > leftHeight && ((rightHeight - leftHeight) < (selfHeight * ratio)))
-        ) {
-          dom.style.top = rightHeight + 'px'
-          dom.style.right = 0
-          // $this.css({
-          //   top: rightHeight,
-          //   right: 0,
-          // });
-          rightHeight += selfHeight + space;
-        } else {
-          dom.style.top = leftHeight + 'px'
-          dom.style.left = 0
-          // $this.css({
-          //   top: leftHeight,
-          //   left: 0,
-          // });
-          leftHeight += selfHeight + space;
-        }
-      })
-      this.$refs.blogList.style.height = Math.max(leftHeight, rightHeight) + 'px'
-      // $('#main').removeClass('not-ready').addClass('animate');
-      this.containerShow = true
-    },
   },
   mounted() {
-    this.calBlogCard()
   },
   // watch: {
   //   'pagination.page'() {
@@ -117,17 +81,18 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  // position: relative;
-  // // height: 100%;
-  // padding-top: 30px;
+  width: 700px;
+  margin-left: 20px;
 }
 .blog-list {
-  position: relative;
-  width: 1000px;
-  margin: auto;
+  // position: relative;
+  // width: 1000px;
+  // margin: auto;
   > div {
-    position: absolute;
-    width: 480px;
+    + div {
+      margin-top: 20px;
+    }
+    width: 700px;
     box-shadow: 2px 2px 5px #ddd;
     transition: all 0.8s cubic-bezier(0.19, 1, 0.5, 1);
     background-color: #fefefe;
@@ -145,6 +110,9 @@ export default {
       background-position: center;
     }
     .content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       padding: 20px 20px 8px;
       h1 {
         margin: 0;
@@ -163,17 +131,11 @@ export default {
         color: $darkGray;
       }
       .read-more {
+        display: block;
+        align-self: flex-end;
         height: 30px;
         line-height: 30px;
-        text-align: right;
         font-size: 1.2rem;
-        a {
-          display: inline-block;
-
-          &:hover {
-            // @include animation(buling 5s infinite ease-in-out);
-          }
-        }
       }
     }
   }
