@@ -3,7 +3,6 @@
     <article class="blog">
       <h1>{{ blog.title }}</h1>
 
-      <div id="toc"></div>
       <sub-line :datetime="blog.datetime"></sub-line>
 
       <div class="entry">
@@ -11,14 +10,10 @@
         <!-- <async-example></async-example> -->
       </div>
 
-      <!-- {% if page.tags.size > 0 %}
-      <div class="tags">
+      <div v-if="blog.tags.length" class="tags">
         <i class="fa fa-tags" title="标签"></i>
-        {% for tag in page.tags %}
-        <a class="color{{ forloop.index | plus:4 | modulo:7 }}" href="{{ site.baseurl }}/tag/#{{ tag }}">{{ tag }}</a>
-        {% endfor %}
+        <a v-for="(item, index) in blog.tags" :key="item.id" :class="'color' + (index + 5) % 7" href="javascript:;">{{ item.name }}</a>
       </div>
-      {% endif %} -->
 
       <div class="licence">
         版权声明：自由转载-非商用-非衍生-保持署名（<a href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）
@@ -48,13 +43,13 @@ export default {
   // },
   async asyncData({ req, app, params }) {
     const result = await app.$axios.$get(`/api/blog/${params.id}`)
-    const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
+    // const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
     // Vue.component('async-example', function (resolve, reject) {
     //   resolve({
     //     template: `<div>${res}</div>`
     //   })
     // })
-    const content = mdResult.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
+    const content = result.data.md.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
       return `<a href="${$2}" target="_blank">${$1}</a>` // TODO 通用
     })
     return {
@@ -88,7 +83,6 @@ export default {
     },
     handleMdTocRendered(tocHtml, tocArray) {
       this.$store.commit('updateTocArray', tocArray)
-      console.log(tocArray)
     },
   },
   beforeDestroy() {

@@ -1,20 +1,64 @@
 <template>
   <div id="blog-toc" class="blog-toc">
     <div class="blog-toc-content">
-      <toc-item :list="list"></toc-item>
+      <toc-item :list="tocTree"></toc-item>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import TocItem from './item'
 
 export default {
   components: { TocItem },
-  props: {
-    list: {
-      type: Array,
-      default: () => [],
+  data() {
+    return {
+      tocTree: [],
+    }
+  },
+  computed: {
+    ...mapGetters(['tocArray']),
+  },
+  methods: {
+    calTocTree(tocArray) {
+      const newTocArray = []
+      const rootNodeStack = []
+      tocArray.forEach(item => {
+        if (item.level === 2) { // 定义根节点
+          const newItem = Object.assign({ isRoot: true }, item)
+          newTocArray.push(newItem)
+          if (rootNodeStack.length) {
+            rootNodeStack.pop()
+          }
+          rootNodeStack.push(newItem)
+        } else {
+          let tmpRootItem = rootNodeStack[rootNodeStack.length - 1]
+          if (item.level === tmpRootItem.level + 1) {
+            if (!tmpRootItem.children) {
+              tmpRootItem.children = []
+            }
+            tmpRootItem.children.push(Object.assign({}, item))
+          } else if (item.level > tmpRootItem.level + 1) {
+            const newItem = Object.assign({}, item)
+            tmpRootItem = tmpRootItem.children[tmpRootItem.children.length - 1]
+            if (!tmpRootItem.children) {
+              tmpRootItem.children = []
+            }
+            tmpRootItem.children.push(newItem)
+            rootNodeStack.push(tmpRootItem)
+          } else {
+            const newItem = Object.assign({}, item)
+            rootNodeStack.pop()
+            rootNodeStack[rootNodeStack.length - 1].children.push(newItem)
+            rootNodeStack.push(newItem)
+          }
+        }
+      })
+      return newTocArray
     },
+  },
+  mounted() {
+    this.tocTree = this.calTocTree(this.tocArray)
   },
 }
 </script>

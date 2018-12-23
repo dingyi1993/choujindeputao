@@ -1,5 +1,5 @@
 <template>
-  <ol :class="[(list.length && list[0].level === 2) ? 'nav' : 'nav-child']">
+  <ol :class="[(list && list[0] && list[0].level === 2) ? 'nav' : 'nav-child']">
     <li
       v-for="(item, index) in list"
       :key="index"

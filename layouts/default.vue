@@ -35,20 +35,20 @@
                 <p>抽筋的葡萄</p>
                 <nav>
                   <nuxt-link :to="{ name: 'about' }">
-                    <span>23</span>
+                    <span>{{ siteInfo.blogCount }}</span>
                     <span>日志</span>
                   </nuxt-link>
-                  <nuxt-link :to="{ name: 'about' }">
+                  <!-- <nuxt-link :to="{ name: 'about' }">
                     <span>42</span>
-                    <span>日志</span>
-                  </nuxt-link>
+                    <span>分类</span>
+                  </nuxt-link> -->
                   <nuxt-link :to="{ name: 'about' }">
-                    <span>75</span>
-                    <span>日志</span>
+                    <span>{{ siteInfo.tagCount }}</span>
+                    <span>标签</span>
                   </nuxt-link>
                 </nav>
               </div>
-              <blog-toc v-else class="toc" :list="tocTree"></blog-toc>
+              <blog-toc v-else class="toc"></blog-toc>
             </transition>
           </keep-alive>
         </div>
@@ -70,46 +70,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentSideCard', 'tocArray']),
+    ...mapGetters(['currentSideCard', 'siteInfo']),
     isBlog() {
       return this.$route.name === 'blog-id'
-    },
-    tocTree() {
-      const newTocArray = []
-      const rootNodeStack = []
-      this.tocArray.forEach(item => {
-        if (item.level === 2) { // 定义根节点
-          const newItem = Object.assign({ isRoot: true }, item)
-          newTocArray.push(newItem)
-          if (rootNodeStack.length) {
-            rootNodeStack.pop()
-          }
-          rootNodeStack.push(newItem)
-        } else {
-          let tmpRootItem = rootNodeStack[rootNodeStack.length - 1]
-          if (item.level === tmpRootItem.level + 1) {
-            if (!tmpRootItem.children) {
-              tmpRootItem.children = []
-            }
-            tmpRootItem.children.push(Object.assign({}, item))
-          } else if (item.level > tmpRootItem.level + 1) {
-            const newItem = Object.assign({}, item)
-            tmpRootItem = tmpRootItem.children[tmpRootItem.children.length - 1]
-            if (!tmpRootItem.children) {
-              tmpRootItem.children = []
-            }
-            tmpRootItem.children.push(newItem)
-            rootNodeStack.push(tmpRootItem)
-          } else {
-            const newItem = Object.assign({}, item)
-            rootNodeStack.pop()
-            rootNodeStack[rootNodeStack.length - 1].children.push(newItem)
-            rootNodeStack.push(newItem)
-          }
-        }
-      })
-      console.log(newTocArray)
-      return newTocArray
     },
   },
   head() {
@@ -117,11 +80,6 @@ export default {
       title: '抽筋的葡萄',
     }
   },
-  // method: {
-  //   handleSideCardClick(sideCard) {
-
-  //   },
-  // },
   mounted() {
     window.onscroll = () => {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
