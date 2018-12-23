@@ -10,13 +10,17 @@
         <div v-if="item.banner" class="banner" :style="{ backgroundImage: `url(${item.banner})` }"></div>
 
         <div class="content">
-          <h1><nuxt-link :to="{ name: 'blog-id', params: { id: item.id } }" class="button">{{ item.title }}</nuxt-link></h1>
+          <h1>
+            <a v-if="item.id === 'magicsearch'" href="/blog/magicsearch" class="button">{{ item.title }}</a>
+            <nuxt-link v-else :to="{ name: 'blog-id', params: { id: item.id } }" class="button">{{ item.title }}</nuxt-link>
+          </h1>
           <sub-line :datetime="item.datetime"></sub-line>
 
           <div class="entry">
             {{ item.excerpt }}
           </div>
-          <nuxt-link class="read-more buling" :to="{ name: 'blog-id', params: { id: item.id } }">READ MORE <i class="fa fa-angle-double-right"></i></nuxt-link>
+          <a v-if="item.id === 'magicsearch'" href="/blog/magicsearch" class="read-more buling">READ MORE <i class="fa fa-angle-double-right"></i></a>
+          <nuxt-link v-else class="read-more buling" :to="{ name: 'blog-id', params: { id: item.id } }">READ MORE <i class="fa fa-angle-double-right"></i></nuxt-link>
         </div>
       </div>
     </div>
@@ -47,7 +51,7 @@ export default {
   components: { SubLine },
   async asyncData({ params, app }) {
     const page = params.page ? Number(params.page) : 1
-    const pageSize = 7
+    const pageSize = 10
     const result = await app.$axios.$get('/api/blog', { params: { isPaging: true, page, pageSize } })
     return {
       containerShow: false,
