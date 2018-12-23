@@ -85,13 +85,13 @@ module.exports = {
     },
     // vendor: ['~/plugins/vue-markdown'],
   },
-  // router: {
-  //   extendRoutes(routes, resolve) {
-  //     routes.push({
-  //       name: 'page',
-  //       path: '/page/:page?',
-  //       component: 'pages/index.vue'
-  //     })
-  //   }
-  // }
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'page',
+        path: '/page/:page?',
+        component: 'pages/index.vue'
+      })
+    }
+  }
 }

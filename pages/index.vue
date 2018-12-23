@@ -24,13 +24,19 @@
     </div>
     <div class="pagination">
       <div class="pagination-inner">
-        <a v-if="pagination.page === 1" class="prev disabled" href="javascript:;"><i class="fa fa-angle-double-left"></i>上一页</a>
-        <nuxt-link v-else class="prev" :to="{ name: 'index', query: { page: pagination.page - 1 } }"><i class="fa fa-angle-double-left"></i>上一页</nuxt-link>
-
+        <nuxt-link
+          tag="button"
+          :disabled="pagination.page === 1"
+          class="prev"
+          :to="{ name: pagination.page === 2 ? 'index' : 'page', params: { page: pagination.page === 2 ? undefined : (pagination.page - 1) } }"
+        ><i class="fa fa-angle-double-left"></i>上一页</nuxt-link>
         <span>{{ pagination.page }}/{{ pagination.totalPage }}</span>
-
-        <a v-if="pagination.page === pagination.totalPage" class="next disabled" href="javascript:;">下一页<i class="fa fa-angle-double-right"></i></a>
-        <nuxt-link v-else class="next" :to="{ name: 'index', query: { page: pagination.page + 1 } }">下一页<i class="fa fa-angle-double-right"></i></nuxt-link>
+        <nuxt-link
+          tag="button"
+          :disabled="pagination.page === pagination.totalPage"
+          class="next"
+          :to="{ name: 'page', params: { page: pagination.page + 1 } }"
+        >下一页<i class="fa fa-angle-double-right"></i></nuxt-link>
       </div>
     </div>
   </section>
@@ -39,10 +45,10 @@
 import SubLine from '~/components/SubLine'
 import blogList from './blogList'
 export default {
-  watchQuery: ['page'],
+  // watchQuery: ['page'],
   components: { SubLine },
-  async asyncData({ query, app }) {
-    const page = query.page ? Number(query.page) : 1
+  async asyncData({ params, app }) {
+    const page = params.page ? Number(params.page) : 1
     const pageSize = 7
     const result = await app.$axios.$get('/api/blog', { params: { isPaging: true, page, pageSize } })
     return {
@@ -98,14 +104,14 @@ export default {
   mounted() {
     this.calBlogCard()
   },
-  watch: {
-    'pagination.page'() {
-      document.documentElement.scrollTop = document.body.scrollTop = 200
-      this.$nextTick(() => {
-        this.calBlogCard()
-      })
-    },
-  },
+  // watch: {
+  //   'pagination.page'() {
+  //     document.documentElement.scrollTop = document.body.scrollTop = 200
+  //     this.$nextTick(() => {
+  //       this.calBlogCard()
+  //     })
+  //   },
+  // },
 }
 </script>
 
@@ -173,57 +179,45 @@ export default {
   }
 }
 .pagination {
+  display: flex;
+  justify-content: center;
   margin-top: 30px;
-  text-align: center;
-  &:hover {
-    a {
-      opacity: 1;
-      &.prev {
-        border-color: $gray;
-      }
-    }
-  }
   .pagination-inner {
-    display: inline-block;
-    margin: 0 auto;
+    display: flex;
+    height: 48px;
+    line-height: 48px;
     font-size: 1.4rem;
     background-color: #fff;
     border-radius: 3px;
     box-shadow: 2px 2px 5px #ddd;
-    a, span {
-      display: block;
-      float: left;
-      line-height: 24px;
-      padding: 12px 15px;
-    }
-    a {
-      &:hover {
+    button {
+      width: 90px;
+      background-color: transparent;
+      &:not([disabled]):hover {
         color: #fff;
         background-color: $blue;
       }
-      &.disabled {
+      &[disabled] {
         color: $gray;
-        &:hover {
-          color: $gray;
-          background-color: inherit;
-          cursor: not-allowed;
+        cursor: not-allowed;
+      }
+      &.prev {
+        border-radius: 3px 0 0 3px;
+        i {
+          margin-right: 10px;
+        }
+      }
+      &.next {
+        border-radius: 0 3px 3px 0;
+        i {
+          margin-left: 10px;
         }
       }
     }
     span {
+      display: block;
       color: $gray;
-    }
-    .prev {
-      border-radius: 3px 0 0 3px;
-      i {
-        margin-right: 10px;
-      }
-    }
-    .next {
-      border-radius: 0 3px 3px 0;
-      i {
-        margin-left: 10px;
-      }
+      padding: 0 15px;
     }
   }
 }
