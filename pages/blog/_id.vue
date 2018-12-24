@@ -6,7 +6,8 @@
       <sub-line :datetime="blog.datetime"></sub-line>
 
       <div class="entry">
-        <markdown v-highlight toc @rendered="handleMdRendered" @toc-rendered="handleMdTocRendered">{{ content }}</markdown>
+        <!-- <markdown v-highlight toc @rendered="handleMdRendered" @toc-rendered="handleMdTocRendered">{{ content }}</markdown> -->
+        <markdown :source="content"></markdown>
         <!-- <async-example></async-example> -->
       </div>
 
@@ -25,28 +26,28 @@
 import Vue from 'vue'
 // import VueMarkdown from 'vue-markdown'
 
-import hljs from 'highlight.js/lib/highlight'
-import javascript from 'highlight.js/lib/languages/javascript'
-import 'highlight.js/styles/github.css'
+// import hljs from 'highlight.js/lib/highlight'
+// import javascript from 'highlight.js/lib/languages/javascript'
+// import 'highlight.js/styles/github.css'
 
 import SubLine from '~/components/SubLine'
-import Markdown from '~/components/Markdown'
+import Markdown from '~/components/Markdown.vue'
 
 import blogList from '../blogList'
 
-hljs.registerLanguage('javascript', javascript)
+// hljs.registerLanguage('javascript', javascript)
 
 export default {
   components: { Markdown, SubLine },
   async asyncData({ req, app, params }) {
     const result = await app.$axios.$get(`/api/blog/${params.id}`)
-    // const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
+    const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
     // Vue.component('async-example', function (resolve, reject) {
     //   resolve({
     //     template: `<div>${res}</div>`
     //   })
     // })
-    const content = result.data.md.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
+    const content = mdResult.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
       return `<a href="${$2}" target="_blank">${$1}</a>` // TODO 通用
     })
     return {
@@ -59,16 +60,16 @@ export default {
       title: '抽筋的葡萄 - ' + this.blog.title,
     }
   },
-  directives: {
-    highlight: {
-      inserted: (el) => {
-        let blocks = el.querySelectorAll('pre code')
-        blocks.forEach((block) => {
-          hljs.highlightBlock(block)
-        })
-      }
-    }
-  },
+  // directives: {
+  //   highlight: {
+  //     inserted: (el) => {
+  //       let blocks = el.querySelectorAll('pre code')
+  //       blocks.forEach((block) => {
+  //         hljs.highlightBlock(block)
+  //       })
+  //     }
+  //   }
+  // },
   methods: {
     handleMdRendered(outHtml) {
       // console.log(outHtml)
