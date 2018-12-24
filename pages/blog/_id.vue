@@ -38,9 +38,6 @@ hljs.registerLanguage('javascript', javascript)
 
 export default {
   components: { Markdown, SubLine },
-  // layout({ params }) {
-  //   return params.id === 'magicsearch' ? 'blog' : 'default'
-  // },
   async asyncData({ req, app, params }) {
     const result = await app.$axios.$get(`/api/blog/${params.id}`)
     // const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
@@ -57,11 +54,11 @@ export default {
       content,
     }
   },
-  // head() {
-  //   return {
-  //     title: '666',
-  //   }
-  // },
+  head() {
+    return {
+      title: '抽筋的葡萄 - ' + this.blog.title,
+    }
+  },
   directives: {
     highlight: {
       inserted: (el) => {
@@ -92,8 +89,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '~assets/style/variables/index.scss';
-
 article.blog {
   position: relative;
   width: 700px;

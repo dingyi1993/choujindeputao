@@ -2,8 +2,6 @@
   <div id="container" class="container" v-html="htmlStr">
   </div>
 </template>
-<script src="/js/jquery-2.2.3.min.js"></script>
-<script src="/js/magicsearch/jquery.magicsearch.min.js"></script>
 <script>
 // import Vue from 'vue'
 // import VueMarkdown from 'vue-markdown'
