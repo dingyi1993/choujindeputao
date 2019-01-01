@@ -3,7 +3,7 @@
     <article class="blog">
       <h1>{{ blog.title }}</h1>
 
-      <sub-line :datetime="blog.datetime"></sub-line>
+      <sub-line :datetime="blog.datetime" :category="blog.category"></sub-line>
 
       <div class="entry">
         <!-- <markdown v-highlight toc @rendered="handleMdRendered" @toc-rendered="handleMdTocRendered">{{ content }}</markdown> -->
@@ -41,13 +41,13 @@ export default {
   components: { Markdown, SubLine },
   async asyncData({ req, app, params }) {
     const result = await app.$axios.$get(`/api/blog/${params.id}`)
-    const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
+    // const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
     // Vue.component('async-example', function (resolve, reject) {
     //   resolve({
     //     template: `<div>${res}</div>`
     //   })
     // })
-    const content = mdResult.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
+    const content = result.data.md.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
       return `<a href="${$2}" target="_blank">${$1}</a>` // TODO 通用
     })
     return {

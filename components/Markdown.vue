@@ -4,6 +4,7 @@
 <script>
 import markdownIt from 'markdown-it'
 import toc from 'markdown-it-toc-and-anchor'
+import taskLists from 'markdown-it-task-lists'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
 
@@ -49,6 +50,7 @@ export default {
         }
       },
     })
+    md.use(taskLists, { enabled: true })
     this.content = md.render(this.source)
   },
 }

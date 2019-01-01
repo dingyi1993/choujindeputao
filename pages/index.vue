@@ -14,7 +14,7 @@
             <a v-if="item.id === 'magicsearch'" href="/blog/magicsearch" class="button">{{ item.title }}</a>
             <nuxt-link v-else :to="{ name: 'blog-id', params: { id: item.id } }" class="button">{{ item.title }}</nuxt-link>
           </h1>
-          <sub-line :datetime="item.datetime"></sub-line>
+          <sub-line :datetime="item.datetime" :category="item.category"></sub-line>
 
           <div class="entry">
             {{ item.excerpt }}
@@ -52,7 +52,7 @@ export default {
   async asyncData({ params, app }) {
     const page = params.page ? Number(params.page) : 1
     const pageSize = 10
-    const result = await app.$axios.$get('/api/blog', { params: { isPaging: true, page, pageSize } })
+    const result = await app.$axios.$get('/api/blog', { params: { page, pageSize } })
     return {
       containerShow: false,
       blogList: result.data.list,

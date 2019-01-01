@@ -1,8 +1,8 @@
 <template>
-  <div class="subline">
+  <div class="sub-line">
     <time :title="datetime | dateFormat"><i class="fa fa-calendar"></i>&nbsp;{{ datetime | dateFormat('YYYY-MM-DD') }}</time>
     <div v-if="category" class="category">
-      <a class="js-category-btn" href="/about"><i class="fa fa-folder-o"></i>&nbsp;{{ category }}</a>
+      <a class="js-category-btn" href="/about"><i class="fa fa-folder-o"></i>&nbsp;{{ category.name }}</a>
       <!-- {% if site.categories.size > 1 %}
       <div class="options">
         <ul>
@@ -26,8 +26,8 @@ export default {
       default: 0,
     },
     category: {
-      type: String,
-      default: '',
+      type: Object,
+      default: null,
     },
   },
   filters: {
@@ -39,9 +39,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~assets/style/variables/index.scss';
-
-.subline {
+.sub-line {
   color: $gray;
+}
+.category {
+  display: inline-block;
+  margin-left: 20px;
 }
 </style>
