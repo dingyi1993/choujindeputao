@@ -14,7 +14,7 @@
             <a v-if="item.id === 'magicsearch'" href="/blog/magicsearch" class="button">{{ item.title }}</a>
             <nuxt-link v-else :to="{ name: 'blog-id', params: { id: item.id } }" class="button">{{ item.title }}</nuxt-link>
           </h1>
-          <sub-line :datetime="item.datetime" :category="item.category"></sub-line>
+          <sub-line :datetime="item.datetime" :category="item.category" :views="item.views"></sub-line>
 
           <div class="entry">
             {{ item.excerpt }}

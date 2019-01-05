@@ -3,7 +3,7 @@
     <article class="blog">
       <h1>{{ blog.title }}</h1>
 
-      <sub-line :datetime="blog.datetime" :category="blog.category"></sub-line>
+      <sub-line :datetime="blog.datetime" :category="blog.category" :views="blog.views"></sub-line>
 
       <div class="entry">
         <!-- <markdown v-highlight toc @rendered="handleMdRendered" @toc-rendered="handleMdTocRendered">{{ content }}</markdown> -->

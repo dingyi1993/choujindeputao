@@ -13,7 +13,7 @@
       </div>
       {% endif %} -->
     </div>
-    <span v-if="false"><i class="fa fa-eye"></i>&nbsp;<span data-hk-page>0</span></span>
+    <div><i class="fa fa-eye"></i>&nbsp;{{ views }}</div>
   </div>
 </template>
 <script>
@@ -29,6 +29,10 @@ export default {
       type: Object,
       default: null,
     },
+    views: {
+      type: Number,
+      default: 0,
+    },
   },
   filters: {
     dateFormat(datetime, format = 'YYYY-MM-DD HH:mm:ss') {
@@ -40,10 +44,13 @@ export default {
 
 <style lang="scss" scoped>
 .sub-line {
+  display: flex;
   color: $gray;
+  > :not(:first-child) {
+    margin-left: 20px;
+  }
 }
-.category {
-  display: inline-block;
-  margin-left: 20px;
-}
+// .category {
+//   margin-left: 20px;
+// }
 </style>
