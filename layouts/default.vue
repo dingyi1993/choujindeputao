@@ -47,6 +47,9 @@
                     <span>标签</span>
                   </nuxt-link>
                 </nav>
+                <div class="find-me">
+                  <a class="github-btn" href="https://github.com/dingyi1993" title="github" target="_blank" style="font-size: 26px;"><i class="fa fa-github"></i></a>
+                </div>
               </div>
               <blog-toc v-else class="toc"></blog-toc>
             </transition>
@@ -196,7 +199,9 @@ header {
       .header-img {
         width: 100px;
         height: 100px;
-        background-color: #ccc;
+        background-image: url('/images/site-info.jpg');
+        background-size: contain;
+        border-radius: 4px;
       }
       nav {
         display: flex;
@@ -219,6 +224,15 @@ header {
               color: $darkGray;
             }
           }
+        }
+      }
+      .find-me {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        a {
+          display: block;
+          line-height: 1;
         }
       }
     }
