@@ -197,8 +197,8 @@ header {
       flex-direction: column;
       align-items: center;
       .header-img {
-        width: 100px;
-        height: 100px;
+        width: 200px;
+        height: 134px;
         background-image: url('/images/site-info.jpg');
         background-size: contain;
         border-radius: 4px;
