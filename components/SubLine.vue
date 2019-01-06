@@ -2,7 +2,7 @@
   <div class="sub-line">
     <time :title="datetime | dateFormat"><i class="fa fa-calendar"></i>&nbsp;{{ datetime | dateFormat('YYYY-MM-DD') }}</time>
     <div v-if="category" class="category">
-      <a class="js-category-btn" href="/about"><i class="fa fa-folder-o"></i>&nbsp;{{ category.name }}</a>
+      <a class="js-category-btn" href="javascript:;"><i class="fa fa-folder-o"></i>&nbsp;{{ category.name }}</a>
       <!-- {% if site.categories.size > 1 %}
       <div class="options">
         <ul>

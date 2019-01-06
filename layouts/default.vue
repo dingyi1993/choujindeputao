@@ -34,18 +34,18 @@
                 <div class="header-img"></div>
                 <p>抽筋的葡萄</p>
                 <nav>
-                  <nuxt-link :to="{ name: 'about' }">
+                  <a href="javascript:;">
                     <span>{{ siteInfo.blogCount }}</span>
                     <span>日志</span>
-                  </nuxt-link>
-                  <!-- <nuxt-link :to="{ name: 'about' }">
-                    <span>42</span>
+                  </a>
+                  <a href="javascript:;">
+                    <span>{{ siteInfo.categoryCount }}</span>
                     <span>分类</span>
-                  </nuxt-link> -->
-                  <nuxt-link :to="{ name: 'about' }">
+                  </a>
+                  <a href="javascript:;">
                     <span>{{ siteInfo.tagCount }}</span>
                     <span>标签</span>
-                  </nuxt-link>
+                  </a>
                 </nav>
                 <div class="find-me">
                   <a class="github-btn" href="https://github.com/dingyi1993" title="github" target="_blank" style="font-size: 26px;"><i class="fa fa-github"></i></a>
