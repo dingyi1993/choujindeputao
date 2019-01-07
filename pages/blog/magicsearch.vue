@@ -12,8 +12,6 @@
 // import javascript from 'highlight.js/lib/languages/javascript'
 // import 'highlight.js/styles/github.css'
 
-// import blogList from '../blogList'
-
 // hljs.registerLanguage('javascript', javascript)
 
 export default {
@@ -22,16 +20,14 @@ export default {
   },
   layout: 'project',
   async asyncData({ req, app, params }) {
-    let mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/magicsearch.html`)
-    mdResult = mdResult.replace(/{% highlight html %}([^☯]+?){% endhighlight %}/g, (match, $1, $2) => {
+    const result = await app.$axios.$get('/api/blog/magicsearch')
+    const mdResult = result.data.md.replace(/{% highlight html %}([^☯]+?){% endhighlight %}/g, (match, $1, $2) => {
       return `<pre>${$1.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`
     }).replace(/{% highlight javascript %}([^☯]+?){% endhighlight %}/g, (match, $1, $2) => {
       return `<pre>${$1.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`
     })
     return {
-      // blog: blogList.find(item => item.id === params.id),
       htmlStr: mdResult,
-    //   content,
     }
   },
   head() {

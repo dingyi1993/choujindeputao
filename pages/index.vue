@@ -2,25 +2,23 @@
   <section class="container">
     <div class="blog-list">
       <div v-for="item in blogList" :key="item.id">
-        <!-- <h1><nuxt-link :to="{ name: 'about' }" class="button">{{ item.title }}</nuxt-link></h1>
-        <p>{{ item.excerpt }}</p>
-        <div class="read-more">
-          <a href="javascript:;">READ MORE >></a>
-        </div> -->
         <div v-if="item.banner" class="banner" :style="{ backgroundImage: `url(${item.banner})` }"></div>
 
         <div class="content">
           <h1>
-            <a v-if="item.id === 'magicsearch'" href="/blog/magicsearch" class="button">{{ item.title }}</a>
-            <nuxt-link v-else :to="{ name: 'blog-id', params: { id: item.id } }" class="button">{{ item.title }}</nuxt-link>
+            <nuxt-link
+              :to="{ name: item.id === 'magicsearch' ? 'blog-magicsearch' : 'blog-id', params: { id: item.id } }"
+              class="button"
+            >{{ item.title }}</nuxt-link>
           </h1>
           <sub-line :datetime="item.datetime" :category="item.category" :views="item.views"></sub-line>
-
           <div class="entry">
             {{ item.excerpt }}
           </div>
-          <a v-if="item.id === 'magicsearch'" href="/blog/magicsearch" class="read-more buling">READ MORE <i class="fa fa-angle-double-right"></i></a>
-          <nuxt-link v-else class="read-more buling" :to="{ name: 'blog-id', params: { id: item.id } }">READ MORE <i class="fa fa-angle-double-right"></i></nuxt-link>
+          <nuxt-link
+            class="read-more buling"
+            :to="{ name: item.id === 'magicsearch' ? 'blog-magicsearch' : 'blog-id', params: { id: item.id } }"
+          >READ MORE <i class="fa fa-angle-double-right"></i></nuxt-link>
         </div>
       </div>
     </div>
@@ -45,7 +43,6 @@
 </template>
 <script>
 import SubLine from '~/components/SubLine'
-// import blogList from './blogList'
 export default {
   // watchQuery: ['page'],
   components: { SubLine },

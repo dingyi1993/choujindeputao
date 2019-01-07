@@ -33,15 +33,12 @@ import Vue from 'vue'
 import SubLine from '~/components/SubLine'
 import Markdown from '~/components/Markdown.vue'
 
-import blogList from '../blogList'
-
 // hljs.registerLanguage('javascript', javascript)
 
 export default {
   components: { Markdown, SubLine },
   async asyncData({ req, app, params }) {
     const result = await app.$axios.$get(`/api/blog/${params.id}`)
-    // const mdResult = await app.$axios.$get(`${process.env.NODE_ENV === 'production' ? 'https://www.dingyi1993.com' : 'http://127.0.0.1:3000'}/blogs/${params.id}.md`)
     // Vue.component('async-example', function (resolve, reject) {
     //   resolve({
     //     template: `<div>${res}</div>`
