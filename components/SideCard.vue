@@ -1,0 +1,176 @@
+<template>
+  <div class="side-card-wrapper">
+    <div class="side-card-list" :class="{ fixed: needFixed }">
+      <card class="side-card side-card-info">
+        <transition name="page" mode="out-in">
+          <ul v-if="isBlog">
+            <li
+              v-for="item in [{ key: 'toc', name: '文章目录' }, { key: 'summary', name: '站点概览' }]"
+              :key="item.key"
+              :class="{ active: currentSideCard === item.key }"
+              @click="$store.commit('updateCurrentSideCard', item.key)"
+            >{{ item.name }}</li>
+          </ul>
+          <!-- 下面的 div 是个 hack，为了触发 transition 的 mode="out-in" -->
+          <div v-else></div>
+        </transition>
+        <keep-alive>
+          <transition name="page" mode="out-in">
+            <div v-if="currentSideCard === 'summary' || !isBlog" class="about-site">
+              <div class="header-img"></div>
+              <p>抽筋的葡萄</p>
+              <nav>
+                <a href="javascript:;">
+                  <span>{{ siteInfo.blogCount }}</span>
+                  <span>日志</span>
+                </a>
+                <a href="javascript:;">
+                  <span>{{ siteInfo.categoryCount }}</span>
+                  <span>分类</span>
+                </a>
+                <a href="javascript:;">
+                  <span>{{ siteInfo.tagCount }}</span>
+                  <span>标签</span>
+                </a>
+              </nav>
+              <div class="find-me">
+                <a class="github-btn" href="https://github.com/dingyi1993" title="github" target="_blank" style="font-size: 26px;"><i class="fa fa-github"></i></a>
+              </div>
+            </div>
+            <blog-toc v-else class="toc"></blog-toc>
+          </transition>
+        </keep-alive>
+      </card>
+      <card class="side-card side-card-menu">
+        <ul>
+          <li>
+            <p>留言板</p>
+            <div>
+              <input v-model="currentMsg" placeholder="说点啥再走呗" type="text" @keypress.enter="handleLeaveMsg" />
+              <ul>
+                <li v-for="item in msgList" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </card>
+    </div>
+  </div>
+</template>
+<script>
+import { mapGetters } from 'vuex'
+import Card from '~/components/Card'
+import BlogToc from '~/components/blog/Toc/index'
+
+export default {
+  components: { Card, BlogToc },
+  data() {
+    return {
+      currentMsg: '',
+      msgList: [],
+    }
+  },
+  computed: {
+    ...mapGetters(['currentSideCard', 'siteInfo', 'needFixed']),
+    isBlog() {
+      return this.$route.name === 'blog-id'
+    },
+  },
+  methods: {
+    handleLeaveMsg() {
+      this.msgList.push(this.currentMsg)
+      this.currentMsg = ''
+    },
+  },
+}
+</script>
+<style lang="scss" scoped>
+.side-card-wrapper {
+  width: 300px;
+  margin-left: 20px;
+}
+.side-card-list {
+  width: 300px;
+  &.fixed {
+    position: fixed;
+    top: 30px;
+  }
+}
+.side-card {
+  + .side-card {
+    margin-top: 20px;
+  }
+}
+.side-card-info {
+  > ul {
+    margin: 0 0 20px 0;
+    padding: 0;
+    text-align: center;
+    li {
+      + li {
+        margin-left: 10px;
+      }
+      display: inline-block;
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+      font-size: 14px;
+      color: #555;
+      &.active {
+        color: #fc6423;
+        border-bottom-color: #fc6423;
+      }
+      &:hover {
+        color: #fc6423;
+      }
+    }
+  }
+  .about-site {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .header-img {
+      width: 200px;
+      height: 134px;
+      background-image: url('/images/site-info.jpg');
+      background-size: contain;
+      border-radius: 4px;
+    }
+    nav {
+      display: flex;
+      > a {
+        + a {
+          border-left: 1px solid $lightGray;
+        }
+        display: block;
+        width: 60px;
+        span {
+          display: block;
+          text-align: center;
+          &:first-child {
+            font-weight: bold;
+            font-size: 16px;
+            color: $lightBlank;
+          }
+          &:last-child {
+            font-size: 14px;
+            color: $darkGray;
+          }
+        }
+      }
+    }
+    .find-me {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      a {
+        display: block;
+        line-height: 1;
+      }
+    }
+  }
+  .toc {
+    align-self: flex-start;
+  }
+}
+.side-card-menu {}
+</style>

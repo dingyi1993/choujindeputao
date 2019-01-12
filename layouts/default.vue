@@ -9,53 +9,12 @@
       </ul>
     </nav> -->
     <header></header>
-    <div class="grape" :class="{ fixed: grapeFixed }">
+    <div class="grape" :class="{ fixed: needFixed }">
       <nuxt-link title="首页" :to="{ name: 'index' }" class="logo"></nuxt-link>
     </div>
     <div class="main-wrapper">
       <nuxt />
-      <div class="side-card-wrapper">
-        <div class="side-card" :class="{ fixed: grapeFixed }">
-          <transition name="page" mode="out-in">
-            <ul v-if="isBlog">
-              <li
-                v-for="item in [{ key: 'toc', name: '文章目录' }, { key: 'summary', name: '站点概览' }]"
-                :key="item.key"
-                :class="{ active: currentSideCard === item.key }"
-                @click="$store.commit('updateCurrentSideCard', item.key)"
-              >{{ item.name }}</li>
-            </ul>
-            <!-- 下面的 div 是个 hack，为了触发 transition 的 mode="out-in" -->
-            <div v-else></div>
-          </transition>
-          <keep-alive>
-            <transition name="page" mode="out-in">
-              <div v-if="currentSideCard === 'summary' || !isBlog" class="about-site">
-                <div class="header-img"></div>
-                <p>抽筋的葡萄</p>
-                <nav>
-                  <a href="javascript:;">
-                    <span>{{ siteInfo.blogCount }}</span>
-                    <span>日志</span>
-                  </a>
-                  <a href="javascript:;">
-                    <span>{{ siteInfo.categoryCount }}</span>
-                    <span>分类</span>
-                  </a>
-                  <a href="javascript:;">
-                    <span>{{ siteInfo.tagCount }}</span>
-                    <span>标签</span>
-                  </a>
-                </nav>
-                <div class="find-me">
-                  <a class="github-btn" href="https://github.com/dingyi1993" title="github" target="_blank" style="font-size: 26px;"><i class="fa fa-github"></i></a>
-                </div>
-              </div>
-              <blog-toc v-else class="toc"></blog-toc>
-            </transition>
-          </keep-alive>
-        </div>
-      </div>
+      <side-card></side-card>
     </div>
     <my-footer/>
   </div>
@@ -63,20 +22,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import MyFooter from '~/components/Footer'
-import BlogToc from '~/components/blog/Toc/index'
+import SideCard from '~/components/SideCard'
 
 export default {
-  components: { MyFooter, BlogToc },
-  data() {
-    return {
-      grapeFixed: false,
-    }
-  },
+  components: { MyFooter, SideCard },
   computed: {
-    ...mapGetters(['currentSideCard', 'siteInfo']),
-    isBlog() {
-      return this.$route.name === 'blog-id'
-    },
+    ...mapGetters(['needFixed']),
   },
   head() {
     return {
@@ -87,9 +38,9 @@ export default {
     window.onscroll = () => {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
       if (650 - scrollTop <= 0) {
-        this.grapeFixed = true
+        this.$store.commit('updateNeedFixed', true)
       } else {
-        this.grapeFixed = false
+        this.$store.commit('updateNeedFixed', false)
       }
     }
   },
@@ -156,90 +107,6 @@ header {
   justify-content: center;
   align-items: flex-start;
   padding-top: 30px;
-  .side-card-wrapper {
-    width: 300px;
-    margin-left: 20px;
-  }
-  .side-card {
-    width: 300px;
-    padding: 20px;
-    box-shadow: 2px 2px 5px #ddd;
-    background-color: #fefefe;
-    border-radius: 4px;
-    &.fixed {
-      position: fixed;
-      top: 30px;
-    }
-    > ul {
-      margin: 0 0 20px 0;
-      padding: 0;
-      text-align: center;
-      li {
-        + li {
-          margin-left: 10px;
-        }
-        display: inline-block;
-        cursor: pointer;
-        border-bottom: 1px solid transparent;
-        font-size: 14px;
-        color: #555;
-        &.active {
-          color: #fc6423;
-          border-bottom-color: #fc6423;
-        }
-        &:hover {
-          color: #fc6423;
-        }
-      }
-    }
-    .about-site {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .header-img {
-        width: 200px;
-        height: 134px;
-        background-image: url('/images/site-info.jpg');
-        background-size: contain;
-        border-radius: 4px;
-      }
-      nav {
-        display: flex;
-        > a {
-          + a {
-            border-left: 1px solid $lightGray;
-          }
-          display: block;
-          width: 60px;
-          span {
-            display: block;
-            text-align: center;
-            &:first-child {
-              font-weight: bold;
-              font-size: 16px;
-              color: $lightBlank;
-            }
-            &:last-child {
-              font-size: 14px;
-              color: $darkGray;
-            }
-          }
-        }
-      }
-      .find-me {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-        a {
-          display: block;
-          line-height: 1;
-        }
-      }
-    }
-    .toc {
-      align-self: flex-start;
-    }
-  }
 }
 
 .grape {

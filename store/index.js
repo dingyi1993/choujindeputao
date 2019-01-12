@@ -6,12 +6,14 @@ Vue.use(Vuex)
 const store = () => new Vuex.Store({
   state: {
     currentSideCard: 'toc',
+    needFixed: false,
     tocArray: [],
     siteInfo: {},
   },
   getters: {
     siteInfo: (state) => state.siteInfo,
     currentSideCard: (state) => state.currentSideCard,
+    needFixed: (state) => state.needFixed,
     tocArray: (state) => state.tocArray,
   },
   mutations: {
@@ -20,6 +22,9 @@ const store = () => new Vuex.Store({
     },
     updateCurrentSideCard(state, payload) {
       state.currentSideCard = payload
+    },
+    updateNeedFixed(state, payload) {
+      state.needFixed = payload
     },
     updateTocArray(state, payload) {
       state.tocArray = payload
