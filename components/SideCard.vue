@@ -44,13 +44,15 @@
       <card class="side-card side-card-menu">
         <ul>
           <li>
-            <p>留言板</p>
-            <div>
+            <p><nuxt-link :to="{ name: 'message' }">留言板</nuxt-link></p>
+            <!-- <div>
               <input v-model="currentMsg" placeholder="说点啥再走呗" type="text" @keypress.enter="handleLeaveMsg" />
+              <input v-model="user.nickName" placeholder="昵称" type="text" @keypress.enter="handleLeaveMsg" />
+              <input v-model="user.email" placeholder="邮箱" type="text" @keypress.enter="handleLeaveMsg" />
               <ul>
                 <li v-for="item in msgList" :key="item">{{ item }}</li>
               </ul>
-            </div>
+            </div> -->
           </li>
         </ul>
       </card>
@@ -68,6 +70,11 @@ export default {
     return {
       currentMsg: '',
       msgList: [],
+      user: {
+        nickName: '',
+        email: '',
+        siteUrl: '',
+      },
     }
   },
   computed: {
@@ -78,6 +85,13 @@ export default {
   },
   methods: {
     handleLeaveMsg() {
+      if (!this.currentMsg) {
+        return
+      }
+      if (!this.user.nickName || !this.user.email) {
+        alert('记得输入昵称和邮箱哦')
+        return
+      }
       this.msgList.push(this.currentMsg)
       this.currentMsg = ''
     },

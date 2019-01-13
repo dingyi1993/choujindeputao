@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :style="cardStyle"><slot></slot></div>
+  <div class="card"><slot></slot></div>
 </template>
 <script>
 export default {
@@ -12,16 +12,6 @@ export default {
     },
   },
   computed: {
-    cardStyle() {
-      const styleObj = {}
-      if (this.width) {
-        styleObj.width = `${width}px`
-      }
-      if (this.height) {
-        styleObj.height = `${height}px`
-      }
-      return styleObj
-    },
   },
 }
 </script>
