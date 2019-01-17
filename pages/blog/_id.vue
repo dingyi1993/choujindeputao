@@ -52,6 +52,11 @@ export default {
       content,
     }
   },
+  data() {
+    return {
+      scroll: null,
+    }
+  },
   head() {
     return {
       title: '抽筋的葡萄 - ' + this.blog.title,
@@ -80,7 +85,12 @@ export default {
       this.$store.commit('updateTocArray', tocArray)
     },
   },
+  async mounted() {
+    const SmoothScroll = (await import('@/assets/js/smooth-scroll.js')).default
+    this.scroll = new SmoothScroll('a[href*="#"]')
+  },
   beforeDestroy() {
+    this.scroll.destroy()
     this.$store.commit('updateCurrentSideCard', 'toc')
     // this.$store.commit('updateTocHtml', '')
   },
