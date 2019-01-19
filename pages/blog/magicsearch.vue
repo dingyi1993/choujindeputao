@@ -1,30 +1,23 @@
 <template>
-  <div id="magicsearch-container" class="container" v-html="htmlStr">
+  <div id="magicsearch-container" class="container" ref="container" v-html="htmlStr">
   </div>
 </template>
 <script>
-// import Vue from 'vue'
-// import VueMarkdown from 'vue-markdown'
-// import $ from 'jquery'
-// import htmlStr from './qwe.json'
+import hljs from 'highlight.js/lib/highlight'
+import javascript from 'highlight.js/lib/languages/javascript'
+import 'highlight.js/styles/github.css'
 
-// import hljs from 'highlight.js/lib/highlight'
-// import javascript from 'highlight.js/lib/languages/javascript'
-// import 'highlight.js/styles/github.css'
-
-// hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage('javascript', javascript)
 
 export default {
-  components: {
-    // VueMarkdown,
-  },
   layout: 'project',
   async asyncData({ req, app, params }) {
+    const doWithCode = (str) => str.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n    /g, '\n').replace(/^\r\n/, '')
     const result = await app.$axios.$get('/api/blog/magicsearch')
     const mdResult = result.data.md.replace(/{% highlight html %}([^☯]+?){% endhighlight %}/g, (match, $1, $2) => {
-      return `<pre>${$1.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`
+      return `<pre><code>${doWithCode($1)}</code></pre>`
     }).replace(/{% highlight javascript %}([^☯]+?){% endhighlight %}/g, (match, $1, $2) => {
-      return `<pre>${$1.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`
+      return `<pre><code>${doWithCode($1)}</code></pre>`
     })
     return {
       htmlStr: mdResult,
@@ -33,16 +26,6 @@ export default {
   head() {
     return {
       title: 'MagicSearch - 抽筋的葡萄',
-    }
-  },
-  directives: {
-    highlight: {
-      inserted: (el) => {
-        let blocks = el.querySelectorAll('pre code')
-        blocks.forEach((block) => {
-          hljs.highlightBlock(block)
-        })
-      }
     }
   },
   methods: {
@@ -371,6 +354,10 @@ export default {
     },
   },
   mounted() {
+    let blocks = this.$refs.container.querySelectorAll('pre')
+    blocks.forEach((block) => {
+      hljs.highlightBlock(block)
+    })
     if (window._hasLoadScript) {
       this.bindMagicsearchEvents()
     } else {
@@ -435,6 +422,13 @@ export default {
     // @include pc {
     text-align: left;
     // }
+  }
+  p code {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
   }
 
   section {

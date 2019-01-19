@@ -1,7 +1,14 @@
 <template>
   <div id="blog-toc" class="blog-toc">
     <div class="blog-toc-content">
-      <toc-item :list="tocTree"></toc-item>
+      <toc-item v-if="tocTree" :list="tocTree"></toc-item>
+      <div v-else class="blog-toc-skeleton">
+        <div style="width: 150px;"></div>
+        <div style="margin-left: 20px; width: 150px;"></div>
+        <div style="margin-left: 20px; width: 150px;"></div>
+        <div style="width: 150px;"></div>
+        <div style="margin-left: 20px; width: 150px;"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -13,7 +20,7 @@ export default {
   components: { TocItem },
   data() {
     return {
-      tocTree: [],
+      tocTree: null,
     }
   },
   computed: {
@@ -122,6 +129,16 @@ export default {
     }
   }
 }
+.blog-toc-skeleton {
+  > div {
+    height: 20px;
+    background-color: $lightGray;
+    + div {
+      margin-top: 8px;
+    }
+  }
+}
+
 .toc-anchor {
   display: none;
 }

@@ -5,8 +5,11 @@
 import markdownIt from 'markdown-it'
 import toc from 'markdown-it-toc-and-anchor'
 import taskLists from 'markdown-it-task-lists'
-import hljs from 'highlight.js'
+import hljs from 'highlight.js/lib/highlight'
+import javascript from 'highlight.js/lib/languages/javascript'
 import 'highlight.js/styles/github.css'
+
+hljs.registerLanguage('javascript', javascript)
 
 export default {
   props: {
@@ -30,11 +33,11 @@ export default {
       highlight: function (str, lang) {
         if (lang && hljs.getLanguage(lang)) {
           try {
-            return hljs.highlight(lang, str).value
+            return `<pre class="hljs"><code>${hljs.highlight(lang, str, true).value}</code></pre>`
           } catch (__) {}
         }
 
-        return '' // use external default escaping
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>'
       }
     })
     md.use(toc, {
