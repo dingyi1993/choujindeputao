@@ -255,7 +255,7 @@ var setHistory = function (options) {
 
   // Get the hash to use
   var hash = window.location.hash;
-  hash = hash ? hash : window.pageYOffset;
+  hash = hash ? hash : '';
 
   // Set a default history
   history.replaceState(
@@ -525,7 +525,7 @@ var SmoothScroll = function (selector, options) {
 
     // Get the anchor
     var anchor = history.state.anchor;
-    if (anchor && anchor !== 0) {
+    if (typeof anchor === 'string' && anchor) {
       anchor = document.querySelector(escapeCharacters(history.state.anchor));
       if (!anchor) return;
     }
