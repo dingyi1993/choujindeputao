@@ -51,6 +51,19 @@ export default {
       },
     })
     md.use(taskLists, { enabled: true })
+
+    const originalHeadingOpen = md.renderer.rules.heading_open
+
+    md.renderer.rules.heading_open = (...args) => {
+      const [ tokens, idx, options, , self ] = args
+      if (originalHeadingOpen) {
+        originalHeadingOpen.apply(self, args)
+      }
+      const aIndex = tokens[idx].attrIndex('id')
+      tokens[idx].attrs[aIndex][1] = encodeURIComponent(tokens[idx].attrs[aIndex][1])
+      return self.renderToken(tokens, idx, options)
+    }
+
     this.content = md.render(this.source)
   },
 }

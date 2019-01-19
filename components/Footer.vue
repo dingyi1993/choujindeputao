@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="huaji"></div>
+    <div class="huaji"><div></div></div>
     <div class="content">
       <div>
         <div class="block-title">标签</div>
@@ -64,7 +64,6 @@ export default {
 
 footer {
   position: relative;
-  margin-top: 30px;
   background-color: #222;
 }
 .huaji {
@@ -72,18 +71,28 @@ footer {
   top: -40px;
   left: 0;
   right: 0;
-  height: 40px;
-  background-image: url('../static/images/huaji.png');
-  background-size: 80px;
-  background-position: left top;
-  background-repeat: no-repeat;
-  // background-color: #eee;
-  transform: translateX(-10%);
-  animation: silde 10s 5s infinite linear;
-  @keyframes silde {
-    0% { transform: translateX(-10%); }
-    33% { transform: translateX(100%); }
-    100% { transform: translateX(100%); }
+  overflow: hidden;
+  @include mobile {
+    top: -30px;
+  }
+  > div {
+    height: 40px;
+    background-image: url('../static/images/huaji.png');
+    background-size: 80px;
+    background-position: left top;
+    background-repeat: no-repeat;
+    // background-color: #eee;
+    transform: translateX(-20%);
+    animation: silde 10s 5s infinite linear;
+    @keyframes silde {
+      0% { transform: translateX(-20%); }
+      33% { transform: translateX(100%); }
+      100% { transform: translateX(100%); }
+    }
+    @include mobile {
+      height: 30px;
+      background-size: 60px;
+    }
   }
   z-index: 2;
 }
@@ -92,9 +101,10 @@ footer {
   width: 1000px;
   height: 300px;
   margin: 0 auto;
-  padding: 20px 0;
-  @media screen and (max-width: 800px) {
-    width: 95%;
+  padding: 20px 12px;
+  @include mobile {
+    width: 100%;
+    height: 200px;
   }
   > div {
     flex: 1;

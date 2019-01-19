@@ -82,8 +82,9 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  width: 700px;
-  margin-left: 20px;
+  @include pc {
+    margin-left: 20px;
+  }
 }
 .blog-list {
   // position: relative;
@@ -92,13 +93,18 @@ export default {
   > div {
     + div {
       margin-top: 20px;
+      @include mobile {
+        margin-top: 12px;
+      }
     }
     width: 700px;
     box-shadow: 2px 2px 5px #ddd;
     transition: all 0.8s cubic-bezier(0.19, 1, 0.5, 1);
     background-color: #fefefe;
     border-radius: 4px;
-    // margin: 10px;
+    @include mobile {
+      width: 100%;
+    }
     &:hover {
       box-shadow: 0 15px 30px rgba(0,0,0,0.1);
       transform: translateY(-2px);
@@ -109,6 +115,9 @@ export default {
       border-top-right-radius: 3px;
       background-size: cover;
       background-position: center;
+      @include mobile {
+        height: 180px;
+      }
     }
     .content {
       display: flex;
@@ -120,9 +129,9 @@ export default {
         font-size: 2rem;
         a {
           display: block;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
+          // overflow: hidden;
+          // white-space: nowrap;
+          // text-overflow: ellipsis;
         }
       }
       .entry {

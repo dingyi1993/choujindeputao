@@ -1,6 +1,6 @@
 <template>
   <div class="side-card-wrapper">
-    <div class="side-card-list" :class="{ fixed: needFixed }">
+    <div class="side-card-list" :class="{ fixed: false }">
       <card class="side-card side-card-info">
         <transition name="page" mode="out-in">
           <ul v-if="isBlog">
@@ -100,15 +100,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .side-card-wrapper {
-  width: 300px;
+  position: sticky;
+  top: 20px;
   margin-left: 20px;
+  @include mobile {
+    display: none;
+  }
 }
 .side-card-list {
   width: 300px;
-  &.fixed {
-    position: fixed;
-    top: 30px;
-  }
 }
 .side-card {
   + .side-card {

@@ -18,7 +18,7 @@ module.exports = {
     title: pkg.name,
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover' },
       { hid: 'description', name: 'description', content: pkg.description },
     ],
     link: [
@@ -61,7 +61,7 @@ module.exports = {
   */
   axios: axiosConfig,
   styleResources: {
-    scss: './assets/style/variables/index.scss',
+    scss: ['./assets/style/variables/index.scss', './assets/style/mixins/index.scss'],
   },
 
   /*

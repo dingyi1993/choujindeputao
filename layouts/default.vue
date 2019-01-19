@@ -97,8 +97,8 @@ header {
   background-image: url('/images/banner.jpg');
   background-size: cover;
   background-position: center;
-  @media screen and (max-width: 800px) {
-    height: 300px;
+  @include mobile {
+    height: 200px;
   }
 }
 
@@ -106,7 +106,10 @@ header {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 30px;
+  padding: 30px 0;
+  @include mobile {
+    padding: 20px 12px;
+  }
 }
 
 .grape {
@@ -114,9 +117,9 @@ header {
   top: 650 + 10px;
   left: 0;
   z-index: 2;
-  // @include mobile {
-  //     display: none;
-  // }
+  @include mobile {
+    display: none;
+  }
   &.fixed {
     position: fixed;
     top: 10px;

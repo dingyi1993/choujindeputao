@@ -7,7 +7,7 @@
 
       <div class="entry">
         <!-- <markdown v-highlight toc @rendered="handleMdRendered" @toc-rendered="handleMdTocRendered">{{ content }}</markdown> -->
-        <markdown :source="content"></markdown>
+        <markdown :source="source"></markdown>
         <!-- <async-example></async-example> -->
       </div>
 
@@ -44,12 +44,12 @@ export default {
     //     template: `<div>${res}</div>`
     //   })
     // })
-    const content = result.data.md.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
+    const source = result.data.md.replace(/{{ page.id }}/g, '/'+ params.id).replace(/\[(.+?)\]\((.+?)\){:target="_blank"}/g, (match, $1, $2) => {
       return `<a href="${$2}" target="_blank">${$1}</a>` // TODO 通用
     })
     return {
       blog: result.data,
-      content,
+      source,
     }
   },
   data() {
@@ -81,13 +81,13 @@ export default {
       //   })
       // })
     },
-    handleMdTocRendered(tocHtml, tocArray) {
-      this.$store.commit('updateTocArray', tocArray)
-    },
+    // handleMdTocRendered(tocHtml, tocArray) {
+    //   this.$store.commit('updateTocArray', tocArray)
+    // },
   },
   async mounted() {
-    const SmoothScroll = (await import('@/assets/js/smooth-scroll.js')).default
-    this.scroll = new SmoothScroll('a[href*="#"]')
+    const SmoothScroll = (await import('~/assets/js/smooth-scroll.js')).default
+    this.scroll = new SmoothScroll('a[href*="#"]', { durationMax: 400 })
   },
   beforeDestroy() {
     this.scroll.destroy()
@@ -96,10 +96,17 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.container {
+  width: 700px;
+  @include mobile {
+    width: 100%;
+  }
+}
+</style>
 <style lang="scss">
 article.blog {
   position: relative;
-  width: 700px;
   // margin: 0 auto;
   padding: 20px 30px;
   background-color: #fefefe;
