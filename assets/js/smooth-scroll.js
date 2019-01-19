@@ -251,7 +251,7 @@ var getSpeed = function (distance, settings) {
 var setHistory = function (options) {
 
   // Make sure this should run
-  if (!history.replaceState || !options.updateURL || history.state) return;
+  if (!history.replaceState || !options.updateURL || (history.state && history.state.smoothScroll)) return;
 
   // Get the hash to use
   var hash = window.location.hash;
@@ -261,7 +261,8 @@ var setHistory = function (options) {
   history.replaceState(
     {
       smoothScroll: JSON.stringify(options),
-      anchor: hash ? hash : window.pageYOffset
+      anchor: hash ? hash : window.pageYOffset,
+      ...history.state,
     },
     document.title,
     hash ? hash : window.location.href
