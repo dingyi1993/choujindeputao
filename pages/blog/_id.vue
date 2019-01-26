@@ -12,7 +12,7 @@
       </div>
 
       <div v-if="blog.tags.length" class="tags">
-        <i class="fa fa-tags" title="标签"></i>
+        <fa :icon="['fas', 'tags']" title="标签" style="vertical-align: middle;" />
         <a v-for="(item, index) in blog.tags" :key="item.id" :class="'color' + (index + 5) % 7" href="javascript:;">{{ item.name }}</a>
       </div>
 
@@ -173,9 +173,6 @@ article.blog {
   }
   .tags {
     margin: 15px 0;
-    i {
-      vertical-align: middle;
-    }
     a {
       display: inline-block;
       font-size: 10px;

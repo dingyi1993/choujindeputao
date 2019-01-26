@@ -4,12 +4,6 @@
 <script>
 export default {
   props: {
-    width: {
-      type: Number,
-    },
-    height: {
-      type: Number,
-    },
   },
   computed: {
   },

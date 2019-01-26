@@ -18,7 +18,7 @@
           <nuxt-link
             class="read-more buling"
             :to="{ name: item.id === 'magicsearch' ? 'blog-magicsearch' : 'blog-id', params: { id: item.id } }"
-          >READ MORE <i class="fa fa-angle-double-right"></i></nuxt-link>
+          >READ MORE <fa :icon="['fas', 'angle-double-right']" /></nuxt-link>
         </div>
       </div>
     </div>
@@ -29,14 +29,14 @@
           :disabled="pagination.page === 1"
           class="prev"
           :to="{ name: pagination.page === 2 ? 'index' : 'page', params: { page: pagination.page === 2 ? undefined : (pagination.page - 1) } }"
-        ><i class="fa fa-angle-double-left"></i>上一页</nuxt-link>
+        ><fa :icon="['fas', 'angle-double-left']" style="margin-right: 10px;" />上一页</nuxt-link>
         <span>{{ pagination.page }}/{{ pagination.totalPage }}</span>
         <nuxt-link
           tag="button"
           :disabled="pagination.page === pagination.totalPage"
           class="next"
           :to="{ name: 'page', params: { page: pagination.page + 1 } }"
-        >下一页<i class="fa fa-angle-double-right"></i></nuxt-link>
+        >下一页<fa :icon="['fas', 'angle-double-right']" style="margin-left: 10px;" /></nuxt-link>
       </div>
     </div>
   </section>
@@ -175,15 +175,9 @@ export default {
       }
       &.prev {
         border-radius: 3px 0 0 3px;
-        i {
-          margin-right: 10px;
-        }
       }
       &.next {
         border-radius: 0 3px 3px 0;
-        i {
-          margin-left: 10px;
-        }
       }
     }
     span {

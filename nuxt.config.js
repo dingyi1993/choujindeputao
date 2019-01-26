@@ -23,8 +23,8 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: '/css/font-awesome.min.css' },
-    ]
+    ],
+
   },
 
   /*
@@ -55,6 +55,7 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
+    'nuxt-fontawesome',
   ],
   /*
   ** Axios module configuration
@@ -62,6 +63,23 @@ module.exports = {
   axios: axiosConfig,
   styleResources: {
     scss: ['./assets/style/variables/index.scss', './assets/style/mixins/index.scss'],
+  },
+  fontawesome: {
+    component: 'fa',
+    imports: [
+      {
+        set: '@fortawesome/free-solid-svg-icons',
+        icons: ['fas'],
+      },
+      {
+        set: '@fortawesome/free-regular-svg-icons',
+        icons: ['far'],
+      },
+      {
+        set: '@fortawesome/free-brands-svg-icons',
+        icons: ['fab'],
+      }
+    ]
   },
 
   /*

@@ -1,19 +1,10 @@
 <template>
   <div class="sub-line">
-    <time :title="datetime | dateFormat"><i class="fa fa-calendar"></i>&nbsp;{{ datetime | dateFormat('YYYY-MM-DD') }}</time>
+    <time :title="datetime | dateFormat"><fa :icon="['far', 'calendar-alt']" />&nbsp;{{ datetime | dateFormat('YYYY-MM-DD') }}</time>
     <div v-if="category" class="category">
-      <a class="js-category-btn" href="javascript:;"><i class="fa fa-folder-o"></i>&nbsp;{{ category.name }}</a>
-      <!-- {% if site.categories.size > 1 %}
-      <div class="options">
-        <ul>
-          {% for category in site.categories %}
-          <li><a{% if category.first == page.category %} class="active"{% endif %} href="{{ site.baseurl }}/category/#{{ category.first }}">{{ category.first }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %} -->
+      <a class="js-category-btn" href="javascript:;"><fa :icon="['far', 'folder']" />&nbsp;{{ category.name }}</a>
     </div>
-    <div><i class="fa fa-eye"></i>&nbsp;{{ views }}</div>
+    <div><fa :icon="['far', 'eye']" />&nbsp;{{ views }}</div>
   </div>
 </template>
 <script>

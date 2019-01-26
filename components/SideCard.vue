@@ -34,17 +34,17 @@
                 </a>
               </nav>
               <div class="find-me">
-                <a class="github-btn" href="https://github.com/dingyi1993" title="github" target="_blank" style="font-size: 26px;"><i class="fa fa-github"></i></a>
+                <a class="github-btn" href="https://github.com/dingyi1993" title="github" target="_blank" style="font-size: 26px;"><fa :icon="['fab', 'github']" /></a>
               </div>
             </div>
             <blog-toc v-else class="toc"></blog-toc>
           </transition>
         </keep-alive>
       </card>
-      <card class="side-card side-card-menu">
+      <card class="side-card side-card-menu" style="padding: 12px 0;">
         <ul>
           <li>
-            <p><nuxt-link :to="{ name: 'message' }">留言板</nuxt-link></p>
+            <nuxt-link :to="{ name: 'message' }"><fa :icon="['far', 'comment-alt']" />留言板</nuxt-link>
             <!-- <div>
               <input v-model="currentMsg" placeholder="说点啥再走呗" type="text" @keypress.enter="handleLeaveMsg" />
               <input v-model="user.nickName" placeholder="昵称" type="text" @keypress.enter="handleLeaveMsg" />
@@ -186,5 +186,26 @@ export default {
     align-self: flex-start;
   }
 }
-.side-card-menu {}
+.side-card-menu {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      > a {
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 20px;
+        &:hover {
+          background-color: $lightGray;
+          color: $lightBlank;
+        }
+        > * {
+          margin-right: 12px;
+        }
+      }
+    }
+  }
+}
 </style>
