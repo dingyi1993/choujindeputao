@@ -8,7 +8,7 @@
         <li>首页</li>
       </ul>
     </nav> -->
-    <header></header>
+    <my-header />
     <div class="grape" :class="{ fixed: needFixed }">
       <nuxt-link title="首页" :to="{ name: 'index' }" class="logo"></nuxt-link>
     </div>
@@ -21,17 +21,18 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import MyHeader from '~/components/Header'
 import MyFooter from '~/components/Footer'
 import SideCard from '~/components/SideCard'
 
 export default {
-  components: { MyFooter, SideCard },
+  components: { MyHeader, MyFooter, SideCard },
   computed: {
     ...mapGetters(['needFixed']),
   },
   head() {
     return {
-      title: '抽筋的葡萄',
+      title: this.siteInfo.siteName,
     }
   },
   mounted() {
@@ -91,16 +92,6 @@ export default {
 //     }
 //   }
 // }
-
-header {
-  height: 650px;
-  background-image: url('/images/banner.jpg');
-  background-size: cover;
-  background-position: center;
-  @include mobile {
-    height: 200px;
-  }
-}
 
 .main-wrapper {
   display: flex;

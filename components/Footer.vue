@@ -31,7 +31,7 @@
           <a class="email-btn" href="mailto:" title="邮箱："><i class="fa fa-envelope"></i></a>
           <a class="rss-btn" href="/feed.xml" title="rss" target="_blank"><i class="fa fa-rss"></i></a> -->
           <div class="info">
-            <p>© {{ siteInfo.year }} 抽筋的葡萄 · <a href="/about/" target="_blank">关于</a></p>
+            <p>© {{ siteInfo.year }} {{ siteInfo.siteName }} · <a href="/about/" target="_blank">关于</a></p>
             <p>粤ICP备<a href="http://www.miitbeian.gov.cn" target="_blank">17154515</a>号</p>
           </div>
         </div>
@@ -40,7 +40,6 @@
   </footer>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -52,9 +51,6 @@ export default {
         { name: '花花丹', href: 'http://daphnechang.github.io', desc: '一朵会编程的花' },
       ],
     }
-  },
-  computed: {
-    ...mapGetters(['siteInfo']),
   },
 }
 </script>

@@ -18,16 +18,16 @@
           <transition name="page" mode="out-in">
             <div v-if="currentSideCard === 'summary' || !isBlog" class="about-site">
               <div class="header-img"></div>
-              <p>抽筋的葡萄</p>
+              <p>{{ siteInfo.siteName }}</p>
               <nav>
                 <nuxt-link :to="{ name: 'archive' }">
                   <span>{{ siteInfo.blogCount }}</span>
                   <span>日志</span>
                 </nuxt-link>
-                <a href="javascript:;">
+                <nuxt-link :to="{ name: 'category' }">
                   <span>{{ siteInfo.categoryCount }}</span>
                   <span>分类</span>
-                </a>
+                </nuxt-link>
                 <a href="javascript:;">
                   <span>{{ siteInfo.tagCount }}</span>
                   <span>标签</span>
@@ -78,7 +78,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentSideCard', 'siteInfo', 'needFixed']),
+    ...mapGetters(['currentSideCard', 'needFixed']),
     isBlog() {
       return this.$route.name === 'blog-id'
     },

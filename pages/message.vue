@@ -59,7 +59,7 @@ export default {
   },
   head() {
     return {
-      title: '抽筋的葡萄 - 留言板'
+      title: `${this.siteInfo.siteName} - 留言板`
     }
   },
   methods: {

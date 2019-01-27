@@ -59,7 +59,7 @@ export default {
   },
   head() {
     return {
-      title: '抽筋的葡萄 - ' + this.blog.title,
+      title: `${this.siteInfo.siteName} - ${this.blog.title}`,
     }
   },
   // directives: {

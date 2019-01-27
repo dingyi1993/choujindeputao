@@ -25,7 +25,7 @@ export default {
   },
   head() {
     return {
-      title: 'MagicSearch - 抽筋的葡萄',
+      title: `MagicSearch - ${this.siteInfo.siteName}`,
     }
   },
   methods: {

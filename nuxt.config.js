@@ -46,6 +46,7 @@ module.exports = {
   plugins: [
     // '~/plugins/vue-markdown'
     '~/plugins/axios',
+    '~/plugins/global',
   ],
 
   /*
