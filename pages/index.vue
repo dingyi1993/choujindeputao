@@ -81,15 +81,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  @include pc {
-    margin-left: 20px;
-  }
-}
 .blog-list {
-  // position: relative;
-  // width: 1000px;
-  // margin: auto;
   > div {
     + div {
       margin-top: 20px;
@@ -97,7 +89,6 @@ export default {
         margin-top: 12px;
       }
     }
-    width: 700px;
     box-shadow: 2px 2px 5px #ddd;
     transition: all 0.8s cubic-bezier(0.19, 1, 0.5, 1);
     background-color: #fefefe;

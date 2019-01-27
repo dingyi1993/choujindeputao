@@ -96,14 +96,6 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
-.container {
-  width: 700px;
-  @include mobile {
-    width: 100%;
-  }
-}
-</style>
 <style lang="scss">
 article.blog {
   position: relative;

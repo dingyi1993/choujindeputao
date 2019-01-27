@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <card style="width: 700px;">
+    <card>
       <h1>留言板</h1>
       <p>超级简陋的留言板，完成功能先，样式稍后再搞（笑哭）。</p>
     </card>
@@ -102,10 +102,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  width: 700px;
-  margin-left: 20px;
-}
 .message-textarea {
   width: 400px;
   height: 100px;

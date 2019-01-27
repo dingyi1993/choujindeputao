@@ -20,10 +20,10 @@
               <div class="header-img"></div>
               <p>抽筋的葡萄</p>
               <nav>
-                <a href="javascript:;">
+                <nuxt-link :to="{ name: 'archive' }">
                   <span>{{ siteInfo.blogCount }}</span>
                   <span>日志</span>
-                </a>
+                </nuxt-link>
                 <a href="javascript:;">
                   <span>{{ siteInfo.categoryCount }}</span>
                   <span>分类</span>
@@ -130,11 +130,11 @@ export default {
       font-size: 14px;
       color: #555;
       &.active {
-        color: #fc6423;
-        border-bottom-color: #fc6423;
+        color: $orange;
+        border-bottom-color: $orange;
       }
       &:hover {
-        color: #fc6423;
+        color: $orange;
       }
     }
   }

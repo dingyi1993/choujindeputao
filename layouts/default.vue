@@ -13,7 +13,7 @@
       <nuxt-link title="首页" :to="{ name: 'index' }" class="logo"></nuxt-link>
     </div>
     <div class="main-wrapper">
-      <nuxt />
+      <nuxt class="nuxt" />
       <side-card></side-card>
     </div>
     <my-footer/>
@@ -109,6 +109,13 @@ header {
   padding: 30px 0;
   @include mobile {
     padding: 20px 12px;
+  }
+}
+
+.nuxt {
+  width: 700px;
+  @include mobile {
+    width: 100%;
   }
 }
 

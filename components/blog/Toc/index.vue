@@ -109,8 +109,8 @@ export default {
         display: block;
       }
       > a {
-        color: #fc6423;
-        border-bottom-color: #fc6423;
+        color: $orange;
+        border-bottom-color: $orange;
       }
     }
     .active-current {
@@ -121,9 +121,9 @@ export default {
         }
       }
       > a {
-        color: #fc6423;
+        color: $orange;
         &:hover {
-          color: #fc6423;
+          color: $orange;
         }
       }
     }
