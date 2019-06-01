@@ -41,10 +41,10 @@
           </transition>
         </keep-alive>
       </card>
-      <card class="side-card side-card-menu" style="padding: 12px 0;">
+      <!-- <card class="side-card side-card-menu" style="padding: 12px 0;">
         <ul>
           <li>
-            <nuxt-link :to="{ name: 'message' }"><fa :icon="['far', 'comment-alt']" />留言板</nuxt-link>
+            <nuxt-link :to="{ name: 'message' }"><fa :icon="['far', 'comment-alt']" />留言板</nuxt-link> -->
             <!-- <div>
               <input v-model="currentMsg" placeholder="说点啥再走呗" type="text" @keypress.enter="handleLeaveMsg" />
               <input v-model="user.nickName" placeholder="昵称" type="text" @keypress.enter="handleLeaveMsg" />
@@ -53,9 +53,9 @@
                 <li v-for="item in msgList" :key="item">{{ item }}</li>
               </ul>
             </div> -->
-          </li>
+          <!-- </li>
         </ul>
-      </card>
+      </card> -->
     </div>
   </div>
 </template>
