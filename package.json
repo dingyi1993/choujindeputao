@@ -43,7 +43,7 @@
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
     "qs": "^6.6.0",
-    "validator": "^10.10.0",
+    "validator": "^13.7.0",
     "vue-markdown": "^2.2.4"
   },
   "devDependencies": {
