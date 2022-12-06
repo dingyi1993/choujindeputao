@@ -42,7 +42,7 @@
     "normalize.css": "^8.0.1",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
-    "qs": "^6.6.0",
+    "qs": "^6.6.1",
     "validator": "^10.10.0",
     "vue-markdown": "^2.2.4"
   },
